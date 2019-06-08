@@ -1,0 +1,13 @@
+<nav class="navbar navbar-inverse bg-dark" xmlns:th="http://www.w3.org/1999/xhtml">
+        <li class="active">
+          <a th:href="@{/home}" class="btn btn-primary" th:text="#{home}"></a>
+          <a th:href="@{/add}" class="btn btn-primary">Add New</a>
+        </li>
+        <li></li>
+        <li><a th:href="@{/home(lang='kh')}" class="btn btn-primary">KH</a><a th:href="@{/home(lang='en')}" class="btn btn-primary">EN</a></li>
+      <ul class="nav navbar-nav" style="display:inline-block">
+        <!-- <li class="active"><a th:href="@{/home}" class="btn btn-primary">Home</a></li>
+        <li><a th:href="@{/add}" class="btn btn-primary">Add New</a></li> -->
+    </ul>
+  </nav>
+  

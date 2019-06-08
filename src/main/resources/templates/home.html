@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <!-- <p th:text="${ARTICLES.size()}"></p> -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>ID </th>
+                    <th>TITLE</th>
+                    <th>AUTHOR</th>
+                    <th>DESCRITION</th>
+                    <th>Thumnail</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody th:if="${ARTICLES.size() > 0} ">
+                <tr th:each=" article ,artStatus : ${ARTICLES}" th:object="${article}">
+                    <td th:text="${artStatus.index}"> </td>
+                    <td th:text="*{id}"></td>
+                    <td th:text="*{title}"></td>
+                    <td th:text="*{author}"> Testing </td>
+                    <td th:text="*{description}"> Testing </td>
+                    <td>
+                        <img th:src="'resources/img/'+*{thumbnail}" alt="" width="150px" height="80px">
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary" th:href="@{article/{id}(id =*{id} )}">View</a>
+                        <a class="btn btn-outline-primary" th:href="@{/edit/author(id=*{id})}">EDIT</a>
+                        <a class="btn btn-outline-primary" th:href="@{/remove(id=*{id})}">DELETE</a>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody th:unless="${ARTICLES.size() > 0} ">
+                <th>Welcome</th>
+            </tbody>
+
+
+
+        </table>
+        <style>
+            .activator{
+                background-color:darkseagreen;
+            }
+        </style>
+        <div th:if="${ARTICLES.size()} > 0">
+            <!-- <p th:text=""></p> -->
+            <!-- ${#numbers.sequence(1, ${ARTICLES.size()} /10 + (${ARTICLES.size()} % 10 > 0 ? 1 : 0 )  })}  + (ARTICLES.size % 10 > 0 ? 1 : 0 ) -->
+            <div style="text-align: center;">
+
+                <ul class="pagination" style="margin:0px auto; width: 20%;">
+                    <li class="page-item">
+                    <a class="page-link" th:href="@{/paginator?limit=10&page=1}">First</a>
+                    </li>
+
+                    <li class="page-item " th:each="i : ${#numbers.sequence(1,PAGEAMOUNT )}">
+                        <a th:if="${CURRENTPAGE == i}" class="page-link activator" th:href="@{/paginator(limit=10,page=${i})}" th:text="${i}"></a>
+                        <a th:unless="${CURRENTPAGE == i}" class="page-link " th:href="@{/paginator(limit=10,page=${i})}" th:text="${i}"></a>
+                    </li>
+                    <li>
+                        <a class="page-link"  th:href="@{/paginator(limit=10,page=${PAGEAMOUNT})}">Last</a>
+                    </li>
+                    
+            
+                </ul>
+            
+                    
+            </div>
+                
+        </div>
+    </div>
+    <script>
+
+    </script>
+</body>
+</html>

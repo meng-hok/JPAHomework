@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorator="layout">
+<head >
+    <title>Document</title>
+</head>
+<body>
+
+    <div layout:fragment="content">
+           
+        <div class="card" style="width:400px" th:object="${ARTICLE}">
+                <img class="card-img-top border border-danger" th:src="@{|../resources/img/*{thumbnail}|}" alt="Card image">
+                <div class="card-body">
+                    <h4 class="card-title" th:text="*{id}"></h4>
+                    <p class="card-text" th:text="*{title}"></p>
+                    <a href="#" class="btn btn-primary" th:text="*{description}">See Profile</a>
+                
+                </div>
+        </div>
+
+    </div>
+</body>
+</html>
+
+<!-- 
+    form enctype="multipart/form-data"
+    name ="files " matching with requestparam
+
+ -->
