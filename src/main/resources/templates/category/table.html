@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                xmlns="http://www.w3.org/1999/xhtml"
+                layout:decorator="layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <center class="my-2">
+            <a th:href="@{/category/add}" class="btn btn-outline-primary">New Category</a>
+        </center>
+        <div class="container" th:if="${CATEGORIES.size()} > 0" >
+            <table class="table" >
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ID</th>
+                        <th>NAME</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each=" CATEGORY  : ${CATEGORIES}" th:object="${CATEGORY}">
+                        <td ></td>
+                        <td th:text="*{id}"></td>
+                        <td th:text="*{name}"></td>
+                        <td>
+                            <a th:href="@{/category/edit?(id=*{id})}" class="btn btn-outline-primary    ">UPDATE</a>
+                            <a th:href="@{/category/delete?(id=*{id})}" class="btn btn-outline-primary  ">REMOVE</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:unless="${CATEGORIES.size()} > 0">
+            GEGEGE
+        </div>
+    </div>
+</body>
+</html>

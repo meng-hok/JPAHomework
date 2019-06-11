@@ -6,7 +6,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.example.getStartedExercise.getstartedexercise.configuration.FileConguration;
+import com.example.getStartedExercise.getstartedexercise.repository.ArticleRepository.ArticleRepoDB;
+import com.example.getStartedExercise.getstartedexercise.repository.ArticleRepository.CategoryRepository;
 import com.example.getStartedExercise.getstartedexercise.repository.model.Article;
+import com.example.getStartedExercise.getstartedexercise.repository.model.Category;
 import com.example.getStartedExercise.getstartedexercise.service.ArticleServiceImp;
 import com.example.getStartedExercise.getstartedexercise.service.ArticleService.ArticleService;
 
@@ -45,17 +48,20 @@ public class ArticleController {
      
         return "redirect:/paginator?limit=10&page=1";
     }
-    
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @RequestMapping("/add")
     public String add(ModelMap modelMap){
         modelMap.addAttribute("ARTICLE", new Article());
-        
+        modelMap.addAttribute("CATEGORIES",categoryRepository.findAll());
+        modelMap.addAttribute("category",new Category());
         return "form";
     }
-
+    //,@ModelAttribute("category") Category category
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute Article article ,BindingResult bindingResult,@RequestParam("files") MultipartFile files,ModelMap modelMap){
-       if(bindingResult.hasErrors()){
+        if(bindingResult.hasErrors()){
           modelMap.addAttribute("ARTICLE", new Article());
            return "form";
        }
@@ -103,11 +109,14 @@ public class ArticleController {
         return "redirect:/home";
     }
    
+    @Autowired
+    public ArticleRepoDB articleRepoDB;
 
     @RequestMapping("/faker")
     String faker()
     {
-        fakeData();
+        //fakeData();
+        articleRepoDB.add(new Article());
         return "redirect:/home";
     }
 

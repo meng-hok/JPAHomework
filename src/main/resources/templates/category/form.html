@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                xmlns="http://www.w3.org/1999/xhtml"
+                layout:decorator="layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div layout:fragment="content">
+
+        <div class="container">
+            <form  th:action="@{${CATEGORY.id>0}?  '/category/edit' :'/category/add'}" th:method="@{'POST'}"  class="form-group" th:object="${CATEGORY}" >
+    
+                <div class="form-group">
+                    <input type="text" th:field="*{id}" style="display:none;">
+                    <label for="">Name</label>
+                    <input type="text" class="form-control" th:field="*{name}">
+                </div>
+    
+            
+                <input class="btn btn-primary" type="submit" value="SUBMIT">
+            </form>
+        </div>
+        <table class="table">
+            <thead>
+                
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+       
+    </div>
+</body>
+</html>

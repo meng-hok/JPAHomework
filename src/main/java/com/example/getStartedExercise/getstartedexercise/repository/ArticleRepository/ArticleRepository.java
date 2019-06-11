@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 /**
  * ArticleRepository
  */
-@Repository
+//@Repository
 public class ArticleRepository implements ArticleRepositoryImp {
 
     List<Article> list = new ArrayList<>(); 

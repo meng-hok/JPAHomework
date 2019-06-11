@@ -1,0 +1,9 @@
+INSERT INTO tb_articles (title,author,category_id,description,thumbnail,status) values ('testing','testingA',1,'testingD','hehe.png',1); 
+INSERT INTO tb_articles (title,author,category_id,description,thumbnail,status) values ('testing','testingA',1,'testingD','hehe.png',1);
+INSERT INTO tb_articles (title,author,category_id,description,thumbnail,status) values ('testing','testingA',1,'testingD','hehe.png',1);
+INSERT INTO tb_articles (title,author,category_id,description,thumbnail,status) values ('testing','testingA',1,'testingD','hehe.png',1);
+INSERT INTO tb_articles (title,author,category_id,description,thumbnail,status) values ('testing','testingA',1,'testingD','hehe.png',1);
+INSERT INTO tb_categories (name,status) VALUES ('ROMANCE',1); 
+INSERT INTO tb_categories (name,status) VALUES ('ROMANCE',1); 
+INSERT INTO tb_categories (name,status) VALUES ('ROMANCE',1); 
+INSERT INTO tb_categories (name,status) VALUES ('ROMANCE',1); 

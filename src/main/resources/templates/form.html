@@ -11,26 +11,39 @@
 <body>
        
     <div layout:fragment="content">
-        <form th:action="@{${ARTICLE.id>0}?  '/edit/author' :'/add'  }" th:method="@{'POST'}"  class="form-group" th:object="${ARTICLE}" enctype="multipart/form-data">
-            <!-- '/edit/author(id = '+${INDEX}+')' --> 
-            <div class="form-group">
-                <input type="text" th:field="*{id}" style="display:none;">
-                <label for="">TITLE</label><span th:if="${#fields.hasErrors('title')}"> hahahha</span>
-                <input type="text" class="form-control" th:field="*{title}">
-            </div>
-            <div class="form-group">
-                <label for="">AUTHOR</label>
-                <input type="text"  class="form-control" th:field="*{author}">
-            </div>
-            <div class="form-group">
-                <label for="">DESCRITION</label>
-                <input type="text"  class="form-control"  th:field="*{description}">
-            </div>
-            <input type="file" name="files" multiple="multiple">
-            <!-- <input type="submit" value="Upload" /> -->
-  
-            <input class="btn btn-primary" type="submit" value="SUBMIT">
-        </form>
+        <div class="container">
+            <form th:action="@{${ARTICLE.id>0}?  '/edit/author' :'/add'  }" th:method="@{'POST'}"  class="form-group" th:object="${ARTICLE}" enctype="multipart/form-data">
+                <!-- '/edit/author(id = '+${INDEX}+')' --> 
+                <div class="form-group">
+                    <input type="text" th:field="*{id}" style="display:none;">
+                    <label for="">TITLE</label><span th:if="${#fields.hasErrors('title')}"> hahahha</span>
+                    <input type="text" class="form-control" th:field="*{title}">
+                </div>
+                <div class="form-group" th:if="${CATEGORIES.size()} > 0">
+                        <label for="">CATEGORY</label>
+                        <!-- <select class="form-control" name="selector"> 
+                            <!-- th:field="*{id}" 
+                            <option th:each="CATEGORY : ${CATEGORIES}" th:value="${CATEGORY.id}" th:text="${CATEGORY.name}"></option>
+                        </select> -->
+                        <select class="form-control" th:field="*{category.id}"> 
+                            <!-- th:field="*{id}"  -->
+                            <option th:each="CATEGORY : ${CATEGORIES}" th:value="${CATEGORY.id}" th:text="${CATEGORY.name}"></option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="">AUTHOR</label>
+                    <input type="text"  class="form-control" th:field="*{author}">
+                </div>
+                <div class="form-group">
+                    <label for="">DESCRITION</label>
+                    <input type="text"  class="form-control"  th:field="*{description}">
+                </div>
+                <input type="file" name="files" multiple="multiple">
+                <!-- <input type="submit" value="Upload" /> -->
+        
+                <input class="btn btn-primary" type="submit" value="SUBMIT">
+            </form>
+        </div>
     </div>
     <script>
         

@@ -18,6 +18,7 @@
                     <th>ID </th>
                     <th>TITLE</th>
                     <th>AUTHOR</th>
+                    <th>CATEGORY</th>
                     <th>DESCRITION</th>
                     <th>Thumnail</th>
                     <th>ACTION</th>
@@ -29,6 +30,8 @@
                     <td th:text="*{id}"></td>
                     <td th:text="*{title}"></td>
                     <td th:text="*{author}"> Testing </td>
+                    <td >1</td>
+                    <!-- th:text="*{category.id}" -->
                     <td th:text="*{description}"> Testing </td>
                     <td>
                         <img th:src="'resources/img/'+*{thumbnail}" alt="" width="150px" height="80px">

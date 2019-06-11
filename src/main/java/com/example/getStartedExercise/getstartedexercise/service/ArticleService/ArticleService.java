@@ -29,8 +29,10 @@ public class ArticleService implements ArticleServiceImp {
     @Override
     public boolean add( Article article) {
         if(articleRepositoryImp.add(article)){
+            System.out.println("add ban aiaiii=");
             return true;
         }
+        System.out.println("add ort kert te");
         return false;
     }
 

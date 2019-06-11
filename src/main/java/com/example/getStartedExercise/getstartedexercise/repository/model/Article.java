@@ -13,11 +13,23 @@ public class Article {
     private String author = "HAKA";
     private String description =" MAKO";
     private String thumbnail ="hehe.png" ;
-
-    public Article() {
-        this.id =0;
+    private Category category;
+    /**
+     * @param category the category to set
+     */
+    public void setCategory(Category category) {
+        this.category = category;
     }
-
+    /**
+     * @return the category
+     */
+    public Category getCategory() {
+        return category;
+    }
+    public Article() {
+        // this.id =0;
+    }
+    
     /**
      * @param thumbnail the thumbnail to set
      */
