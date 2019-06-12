@@ -107,6 +107,6 @@ public class Article {
 
     @Override
     public String toString() {
-        return "Article : {id = "+id +"title"+title+"thumbnail"+thumbnail+"}";
+        return "Article : {id = "+id +"title"+title+"thumbnail"+thumbnail+'\n'+category+"}"+'\n';
     }
 }

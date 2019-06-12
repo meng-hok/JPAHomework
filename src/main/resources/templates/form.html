@@ -11,7 +11,7 @@
 <body>
        
     <div layout:fragment="content">
-        <div class="container">
+        <div class="container" >
             <form th:action="@{${ARTICLE.id>0}?  '/edit/author' :'/add'  }" th:method="@{'POST'}"  class="form-group" th:object="${ARTICLE}" enctype="multipart/form-data">
                 <!-- '/edit/author(id = '+${INDEX}+')' --> 
                 <div class="form-group">

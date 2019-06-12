@@ -21,7 +21,7 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     public boolean add(Category category) {
-        System.out.println("work aiii service");
+       
         cateRepo.add(category);
         return false;
     }

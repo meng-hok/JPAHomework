@@ -9,15 +9,21 @@
 
     <div layout:fragment="content">
            
-        <div class="card" style="width:400px" th:object="${ARTICLE}">
+       <div class="container">
+            <div class="card" style="width:400px" th:object="${ARTICLE}">
                 <img class="card-img-top border border-danger" th:src="@{|../resources/img/*{thumbnail}|}" alt="Card image">
                 <div class="card-body">
-                    <h4 class="card-title" th:text="*{id}"></h4>
-                    <p class="card-text" th:text="*{title}"></p>
-                    <a href="#" class="btn btn-primary" th:text="*{description}">See Profile</a>
+                    <h4 class="card-title" th:text="'TITLE : '+*{title}"></h4>
+                    <p class="card-text" th:text="'AUTHOR : '+*{author}"></p>
+                    <p class="card-text" th:if="*{category} != null " th:text="'CATEGORY : '+*{category.name}"></p>
+                    <p class="card-text" th:unless="*{category} != null " th:utext="'CATEGORY : <b>UNKNOWN</b>'"></p>
+                   
+                    <p class="card-text" th:text="'DESCRIPTION : '+*{description}"></p> 
+                    <!-- <a href="#" class="btn btn-primary" th:text="*{description}">See Profile</a> -->
                 
                 </div>
-        </div>
+             </div>
+       </div>
 
     </div>
 </body>

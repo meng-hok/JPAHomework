@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 /**
  * ArticleController
@@ -87,6 +88,8 @@ public class ArticleController {
        
         modelMap.addAttribute("ARTICLE", articleServiceImp.find(id));
         modelMap.addAttribute("INDEX",id);
+        modelMap.addAttribute("CATEGORIES",categoryRepository.findAll());
+        modelMap.addAttribute("category",new Category());
       
         return "form";
     }
@@ -151,11 +154,22 @@ public class ArticleController {
                 
             }
          modelMap.addAttribute("ARTICLES", newList);
+         System.out.println(newList);
          int paginationAmount = (list.size() / 10 ) +  ((list.size() % 10) > 0 ? 1 :0  ) ;
          modelMap.addAttribute("PAGEAMOUNT",paginationAmount);
          modelMap.addAttribute("CURRENTPAGE",page);
          return "home";
      }
+
+     @GetMapping("/testing")
+     @ResponseBody
+     String testing() {
+         return articleRepoDB.findByTitle("%t%").toString();
+     }
      
+     List<Article> findByName(String title) {
+        String searchTitle = '%'+title+'%';
+        return articleRepoDB.findByTitle(searchTitle);
+     }  
     
 }

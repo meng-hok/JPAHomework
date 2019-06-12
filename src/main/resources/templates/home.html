@@ -10,49 +10,69 @@
 
 <body>
     <div layout:fragment="content">
+        <div class="container border py-5 w-20" >
+            <form class="form-inline ">
+                <div class="form-group">
+                    <!-- <label for=""></label> -->
+                    <input type="text" class="form-control" placeholder="title">
+                    <select name="" id="" class="form-control">
+                        <option value="">FIRST</option>
+                        <option value="">SECOND</option>
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-primary" value="SUBMIT">
+            </form>
+        </div>
         <!-- <p th:text="${ARTICLES.size()}"></p> -->
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>ID </th>
-                    <th>TITLE</th>
-                    <th>AUTHOR</th>
-                    <th>CATEGORY</th>
-                    <th>DESCRITION</th>
-                    <th>Thumnail</th>
-                    <th>ACTION</th>
-                </tr>
-            </thead>
-            <tbody th:if="${ARTICLES.size() > 0} ">
-                <tr th:each=" article ,artStatus : ${ARTICLES}" th:object="${article}">
-                    <td th:text="${artStatus.index}"> </td>
-                    <td th:text="*{id}"></td>
-                    <td th:text="*{title}"></td>
-                    <td th:text="*{author}"> Testing </td>
-                    <td >1</td>
-                    <!-- th:text="*{category.id}" -->
-                    <td th:text="*{description}"> Testing </td>
-                    <td>
-                        <img th:src="'resources/img/'+*{thumbnail}" alt="" width="150px" height="80px">
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary" th:href="@{article/{id}(id =*{id} )}">View</a>
-                        <a class="btn btn-outline-primary" th:href="@{/edit/author(id=*{id})}">EDIT</a>
-                        <a class="btn btn-outline-primary" th:href="@{/remove(id=*{id})}">DELETE</a>
-                    </td>
-                </tr>
-            </tbody>
-            <tbody th:unless="${ARTICLES.size() > 0} ">
-                <th>Welcome</th>
-            </tbody>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ID </th>
+                        <th>TITLE</th>
+                        <th>AUTHOR</th>
+                        <th>CATEGORY</th>
+                        <th>DESCRITION</th>
+                        <th>Thumnail</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody th:if="${ARTICLES.size() > 0} ">
+                    <tr th:each=" article ,artStatus : ${ARTICLES}" th:object="${article}">
+                        <!-- <td th:text="${artStatus.index}"> </td> -->
+                        <td></td>
+                        <td th:text="*{id}"></td>
+                        <td th:text="*{title}"></td>
+                        <td th:text="*{author}"> Testing </td>
+                        <td th:if="*{category} != null ">
+                            <p th:text="*{category.name}"></p>
+                        </td>
+                        <td th:unless="*{category} != null ">Unknown</td>
+
+                        <!-- th:text="*{category.id}" -->
+                        <td th:text="*{description}"> Testing </td>
+                        <td>
+                            <img th:src="'resources/img/'+*{thumbnail}" alt="" width="150px" height="80px">
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-primary" th:href="@{article/{id}(id =*{id} )}">View</a>
+                            <a class="btn btn-outline-primary" th:href="@{/edit/author(id=*{id})}">EDIT</a>
+                            <a class="btn btn-outline-primary" th:href="@{/remove(id=*{id})}">DELETE</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody th:unless="${ARTICLES.size() > 0} ">
+                    <th>Welcome</th>
+                </tbody>
 
 
 
-        </table>
+            </table>
+        </div>
         <style>
-            .activator{
-                background-color:darkseagreen;
+            .activator {
+                background-color: darkseagreen;
             }
         </style>
         <div th:if="${ARTICLES.size()} > 0">
@@ -62,7 +82,7 @@
 
                 <ul class="pagination" style="margin:0px auto; width: 20%;">
                     <li class="page-item">
-                    <a class="page-link" th:href="@{/paginator?limit=10&page=1}">First</a>
+                        <a class="page-link" th:href="@{/paginator?limit=10&page=1}">First</a>
                     </li>
 
                     <li class="page-item " th:each="i : ${#numbers.sequence(1,PAGEAMOUNT )}">
