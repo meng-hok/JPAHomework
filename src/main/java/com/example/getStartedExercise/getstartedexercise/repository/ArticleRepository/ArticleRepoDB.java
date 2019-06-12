@@ -56,4 +56,10 @@ public interface ArticleRepoDB extends ArticleRepositoryImp {
      }) 
       List<Article> findByTitle(String title);
 
+      @Select("SELECT  tba.* , tbc.name as name FROM TB_ARTICLES AS tba LEFT JOIN TB_CATEGORIES AS tbc ON tba.category_id = tbc.id where tba.title like #{title} AND tba.category_id = #{category_id} AND tba.status = 1")
+      @Results({
+        @Result( column = "category_id" ,property = "category.id",jdbcType=JdbcType.INTEGER),
+        @Result( column = "name" ,property = "category.name",jdbcType=JdbcType.VARCHAR)
+      }) 
+       List<Article> findByTitleAndType(String title,int category_id);
 }

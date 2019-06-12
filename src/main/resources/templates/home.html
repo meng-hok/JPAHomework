@@ -11,13 +11,13 @@
 <body>
     <div layout:fragment="content">
         <div class="container border py-5 w-20" >
-            <form class="form-inline ">
+            <form action="../search" method="POST" class="form-inline ">
                 <div class="form-group">
                     <!-- <label for=""></label> -->
-                    <input type="text" class="form-control" placeholder="title">
-                    <select name="" id="" class="form-control">
-                        <option value="">FIRST</option>
-                        <option value="">SECOND</option>
+                    <input type="text" name="search_title" class="form-control" placeholder="title">
+                    <select name="search_type" id="" class="form-control">
+                        <option selected="selected" value="0">All</option>
+                        <option th:each="CATEGORY : ${CATEGORIES}" th:value="${CATEGORY.id}" th:text="${CATEGORY.name}"></option>
                     </select>
                 </div>
                 <input type="submit" class="btn btn-primary" value="SUBMIT">

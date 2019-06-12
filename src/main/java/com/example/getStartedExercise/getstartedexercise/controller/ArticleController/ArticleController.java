@@ -46,7 +46,7 @@ public class ArticleController {
         
        modelMap.addAttribute("ARTICLES", articleServiceImp.findAll());
         modelMap.addAttribute("VAR", 10);
-     
+        search_via_all = true;
         return "redirect:/paginator?limit=10&page=1";
     }
     @Autowired
@@ -139,10 +139,30 @@ public class ArticleController {
          return "redirect:/home";
      }
 
-    
+     @PostMapping(value = "/search")
+     String search(@RequestParam("search_title") String title, @RequestParam("search_type") int type ){
+        
+        search_via_all = false;
+        this.list = findByName(title, type);
+        return "redirect:/paginator?limit=10&page=1";
+     }
+
+     List<Article> findByName(String title,int id) {
+        String searchTitle = '%'+title+'%';
+        if(id == 0){
+            return articleRepoDB.findByTitle(searchTitle);
+        }
+        return articleRepoDB.findByTitleAndType(searchTitle,id);
+     }  
+
+     private List<Article> list;
+     Boolean search_via_all = true;
      @GetMapping(value="paginator")
      public String postMethodName(@RequestParam("limit") int limit , @RequestParam("page") int page ,ModelMap modelMap) {
-            List<Article> list =  articleServiceImp.findAll();
+            if(search_via_all == true ){
+                list =  articleServiceImp.findAll();
+            }
+                
             List<Article> newList = new ArrayList<>();
             for (int i = limit * (page-1) ; i < limit * page; i++) {
                 try {
@@ -153,23 +173,15 @@ public class ArticleController {
                 }
                 
             }
+         modelMap.addAttribute("CATEGORIES",categoryRepository.findAll());   
          modelMap.addAttribute("ARTICLES", newList);
-         System.out.println(newList);
+        //  System.out.println(newList);
          int paginationAmount = (list.size() / 10 ) +  ((list.size() % 10) > 0 ? 1 :0  ) ;
          modelMap.addAttribute("PAGEAMOUNT",paginationAmount);
          modelMap.addAttribute("CURRENTPAGE",page);
          return "home";
      }
 
-     @GetMapping("/testing")
-     @ResponseBody
-     String testing() {
-         return articleRepoDB.findByTitle("%t%").toString();
-     }
-     
-     List<Article> findByName(String title) {
-        String searchTitle = '%'+title+'%';
-        return articleRepoDB.findByTitle(searchTitle);
-     }  
+   
     
 }
