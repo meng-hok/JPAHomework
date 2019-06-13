@@ -3,6 +3,7 @@ package com.example.getStartedExercise.getstartedexercise.controller.ArticleCont
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.example.getStartedExercise.getstartedexercise.configuration.FileConguration;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,6 +66,8 @@ public class ArticleController {
     public String add(@Valid @ModelAttribute Article article ,BindingResult bindingResult,@RequestParam("files") MultipartFile files,ModelMap modelMap){
         if(bindingResult.hasErrors()){
           modelMap.addAttribute("ARTICLE", new Article());
+          modelMap.addAttribute("CATEGORIES",categoryRepository.findAll());
+          modelMap.addAttribute("category",new Category());
            return "form";
        }
         if(files.isEmpty()){
@@ -102,6 +106,7 @@ public class ArticleController {
              article.setThumbnail(FileConguration.uploaded(file)); 
             
         }
+        System.out.println(article.getThumbnail());
         articleServiceImp.update(article); 
         return "redirect:/home";
     }
@@ -182,6 +187,4 @@ public class ArticleController {
          return "home";
      }
 
-   
-    
 }

@@ -10,8 +10,8 @@
 
 <body>
     <div layout:fragment="content">
-        <div class="container border py-5 w-20" >
-            <form action="../search" method="POST" class="form-inline ">
+        <div class="container py-5 w-20" >
+            <form action="../search" method="POST" class="form-inline " style="justify-content: flex-end;">
                 <div class="form-group">
                     <!-- <label for=""></label> -->
                     <input type="text" name="search_title" class="form-control" placeholder="title">
@@ -20,7 +20,7 @@
                         <option th:each="CATEGORY : ${CATEGORIES}" th:value="${CATEGORY.id}" th:text="${CATEGORY.name}"></option>
                     </select>
                 </div>
-                <input type="submit" class="btn btn-primary" value="SUBMIT">
+                <input type="submit" class="btn btn-outline-primary" value="SUBMIT">
             </form>
         </div>
         <!-- <p th:text="${ARTICLES.size()}"></p> -->
