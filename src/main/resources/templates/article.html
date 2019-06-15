@@ -9,8 +9,6 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- 'resources/img/'+*{thumbnail} -->
-    <!-- <div layout:fragment="content"> -->
         <div class="card" style="width:400px" th:object="${ARTICLE}">
                 <img class="card-img-top" th:href="@{../resources/img/hehe.png}" alt="Card image">
                 <div class="card-body">
@@ -20,27 +18,6 @@
                 </div>
         </div>
 
-    <!-- </div> -->
 
-
-    <!-- <div layout:fragment="content">
-                 
-        <div id ="testing"  th:object="${ARTICLE}">
-           
-            <!-- <h5 th:text="${i}"></h5> 
-                <h5 th:text="'ID :'+*{id}"></h5>
-                <br>
-                <h5 th:text="'TITLE : ' + *{title}"></h5>
-                <br>
-                <h5 th:text="'AUTHOR : ' + *{author}"></h5>
-                <br>
-                <h5 th:text="' DESCRIPTION : ' + *{description}"></h5>
-                <br>
-                <img th:src="'resources/img/'+*{thumbnail}" alt="" width="150px" height="80px">
-                <img th:src="@{resources/img/hehe.png}" alt="" width="150px" height="80px">
-            
-        </div>
-      
-    </div> -->
 </body>
 </html>

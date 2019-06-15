@@ -37,6 +37,12 @@ public class ArticleController {
 
     ArticleServiceImp articleServiceImp;
     static String lang  = "en";
+    private List<Article> list;
+    Boolean search_via_all = true;
+    @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
+    public ArticleRepoDB articleRepoDB;
    
     @Autowired
     ArticleController(ArticleService articleService){
@@ -51,8 +57,7 @@ public class ArticleController {
         search_via_all = true;
         return "redirect:/paginator?limit=10&page=1";
     }
-    @Autowired
-    private CategoryRepository categoryRepository;
+    
 
     @RequestMapping("/add")
     public String add(ModelMap modelMap){
@@ -117,8 +122,7 @@ public class ArticleController {
         return "redirect:/home";
     }
    
-    @Autowired
-    public ArticleRepoDB articleRepoDB;
+ 
 
     @RequestMapping("/faker")
     String faker()
@@ -128,21 +132,9 @@ public class ArticleController {
         return "redirect:/home";
     }
 
-    List<Article> fakeData( ){
-        // List<Article> list =new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            Article article = new Article();
-            article.setId(50);
-            article.setTitle("hahahaha");
-            add(article);
-        }
-        return null;
-    }
+   
 
-    public String add(@ModelAttribute Article article ){
-       articleServiceImp.add(article);
-         return "redirect:/home";
-     }
+
 
      @PostMapping(value = "/search")
      String search(@RequestParam("search_title") String title, @RequestParam("search_type") int type ){
@@ -152,16 +144,6 @@ public class ArticleController {
         return "redirect:/paginator?limit=10&page=1";
      }
 
-     List<Article> findByName(String title,int id) {
-        String searchTitle = '%'+title+'%';
-        if(id == 0){
-            return articleRepoDB.findByTitle(searchTitle);
-        }
-        return articleRepoDB.findByTitleAndType(searchTitle,id);
-     }  
-
-     private List<Article> list;
-     Boolean search_via_all = true;
      @GetMapping(value="paginator")
      public String postMethodName(@RequestParam("limit") int limit , @RequestParam("page") int page ,ModelMap modelMap) {
             if(search_via_all == true ){
@@ -180,11 +162,33 @@ public class ArticleController {
             }
          modelMap.addAttribute("CATEGORIES",categoryRepository.findAll());   
          modelMap.addAttribute("ARTICLES", newList);
-        //  System.out.println(newList);
          int paginationAmount = (list.size() / 10 ) +  ((list.size() % 10) > 0 ? 1 :0  ) ;
          modelMap.addAttribute("PAGEAMOUNT",paginationAmount);
          modelMap.addAttribute("CURRENTPAGE",page);
          return "home";
      }
+     List<Article> fakeData( ){
+        for (int i = 0; i < 20; i++) {
+            Article article = new Article();
+            article.setId(50);
+            article.setTitle("hahahaha");
+            add(article);
+        }
+        return null;
+    }
 
+
+    List<Article> findByName(String title,int id) {
+        String searchTitle = '%'+title+'%';
+        if(id == 0){
+            return articleRepoDB.findByTitle(searchTitle);
+        }
+        return articleRepoDB.findByTitleAndType(searchTitle,id);
+     }  
+
+     public String add(@ModelAttribute Article article ){
+        articleServiceImp.add(article);
+          return "redirect:/home";
+      }
+ 
 }
