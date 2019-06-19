@@ -17,7 +17,7 @@
     
                 <div class="form-group">
                     <input type="text" th:field="*{id}" style="display:none;">
-                    <label for="">Name</label>
+                    <label for="">Name</label><label th:if="${#fields.hasErrors('name')}"><sup class="text-danger">* CAN NOT BE EMPTY</sup></label>
                     <input type="text" class="form-control" th:field="*{name}">
                 </div>
     

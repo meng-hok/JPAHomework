@@ -1,5 +1,7 @@
 package com.example.getStartedExercise.getstartedexercise.repository.model;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * Category
  */
@@ -7,7 +9,8 @@ public class Category {
 
     
     private int id;
-    private String name = "DEVELP";
+    @NotEmpty
+    private String name = "DEFAULT";
     
 
     public Category() {

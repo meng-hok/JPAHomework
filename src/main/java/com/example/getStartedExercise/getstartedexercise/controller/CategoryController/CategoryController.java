@@ -2,12 +2,16 @@ package com.example.getStartedExercise.getstartedexercise.controller.CategoryCon
 
 import java.util.ArrayList;
 
+import javax.validation.Valid;
+
 import com.example.getStartedExercise.getstartedexercise.repository.model.Category;
 import com.example.getStartedExercise.getstartedexercise.service.CategoryService.CategoryServiceImp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +38,11 @@ public class CategoryController {
     }
 
     @PostMapping(value = "add")
-    public String add(@ModelAttribute Category category){
+    public String add(@Valid @ModelAttribute("CATEGORY") Category category,BindingResult bindResult,ModelMap modelMap){
+         if(bindResult.hasErrors()){
+            modelMap.addAttribute("CATEGORY",category);
+            return "category/form";
+         }
         cateSer.add(category);
         return "redirect:/category/show";
     }
@@ -42,13 +50,16 @@ public class CategoryController {
     @GetMapping(value = "edit")
     public String update(@RequestParam("id") int id,ModelMap modelMap){
         Category category = cateSer.find(id);
-        System.out.println(category);
         modelMap.addAttribute("CATEGORY",category);
         return "category/form";
     }
 
     @PostMapping(value = "edit")
-    public String update(@ModelAttribute Category category){
+    public String update(@Valid @ModelAttribute("CATEGORY") Category category,BindingResult bindResult,ModelMap modelMap){
+        if(bindResult.hasErrors()){
+            modelMap.addAttribute("CATEGORY",category);
+            return "category/form";
+         }
         cateSer.update(category);
         return "redirect:/category/show";
     }

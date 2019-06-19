@@ -14,8 +14,8 @@ public class Article {
     private String title;
     
     @NotEmpty
-    private String author = "HAKA";
-    private String description =" MAKO";
+    private String author = "UNKNOWN";
+    private String description =" EMPTY";
     private String thumbnail ="hehe.png" ;
     private Category category;
     /**
