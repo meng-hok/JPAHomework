@@ -12,16 +12,16 @@
 <body>
     <div layout:fragment="content">
         <center class="my-2">
-            <a th:href="@{/category/add}" class="btn btn-outline-primary">New Category</a>
+            <a th:href="@{/category/add}" class="btn btn-outline-primary" th:text="#{article.add_new}">New Category</a>
         </center>
         <div class="container" th:if="${CATEGORIES.size()} > 0" >
             <table class="table" >
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>ID</th>
-                        <th>NAME</th>
-                        <th>ACTION</th>
+                        <th th:text="#{article.identifier}">ID </th>
+                        <th th:text="#{article.title}">TITLE</th>
+                        <th th:text="#{article.action}">ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,8 +30,8 @@
                         <td th:text="*{id}"></td>
                         <td th:text="*{name}"></td>
                         <td>
-                            <a th:href="@{/category/edit?(id=*{id})}" class="btn btn-outline-primary    ">UPDATE</a>
-                            <a th:href="@{/category/delete?(id=*{id})}" class="btn btn-outline-primary  ">REMOVE</a>
+                            <a th:href="@{/category/edit?(id=*{id})}" class="btn btn-outline-primary " th:text="#{article.update}">UPDATE</a>
+                            <a th:href="@{/category/delete?(id=*{id})}" class="btn btn-outline-primary  " th:text="#{article.delete}">REMOVE</a>
                         </td>
                     </tr>
                 </tbody>

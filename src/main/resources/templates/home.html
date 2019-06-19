@@ -29,13 +29,13 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>ID </th>
-                        <th>TITLE</th>
-                        <th>AUTHOR</th>
-                        <th>CATEGORY</th>
-                        <th>DESCRITION</th>
-                        <th>Thumnail</th>
-                        <th>ACTION</th>
+                        <th th:text="#{article.identifier}">ID </th>
+                        <th th:text="#{article.title}">TITLE</th>
+                        <th th:text="#{article.author}">AUTHOR</th>
+                        <th >CATEGORY</th>
+                        <th th:text="#{article.description}">DESCRITION</th>
+                        <th th:text="#{article.thumbnail}">Thumnail</th>
+                        <th th:text="#{article.action}">ACTION</th>
                     </tr>
                 </thead>
                 <tbody th:if="${ARTICLES.size() > 0} ">
@@ -56,9 +56,9 @@
                             <img th:src="'resources/img/'+*{thumbnail}" alt="" width="150px" height="80px">
                         </td>
                         <td>
-                            <a class="btn btn-outline-primary" th:href="@{article/{id}(id =*{id} )}">View</a>
-                            <a class="btn btn-outline-primary" th:href="@{/edit/author(id=*{id})}">EDIT</a>
-                            <a class="btn btn-outline-primary" th:href="@{/remove(id=*{id})}">DELETE</a>
+                            <a class="btn btn-outline-primary" th:href="@{article/{id}(id =*{id} )}" th:text="#{article.view}" >View</a>
+                            <a class="btn btn-outline-primary" th:href="@{/edit/author(id=*{id})}" th:text="#{article.update}">EDIT</a>
+                            <a class="btn btn-outline-primary" th:href="@{/remove(id=*{id})}" th:text="#{article.delete}">DELETE</a>
                         </td>
                     </tr>
                 </tbody>

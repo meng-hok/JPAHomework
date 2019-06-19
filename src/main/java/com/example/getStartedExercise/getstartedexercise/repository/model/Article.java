@@ -1,15 +1,19 @@
 package com.example.getStartedExercise.getstartedexercise.repository.model;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  * Article
  */
 public class Article {
 	
-	private int id;
-    @NotEmpty(message = "hahahaha ban aiii")
-	private String title;
+    private int id;
+    
+    @NotEmpty
+    private String title;
+    
+    @Size(min = 7)
     private String author = "HAKA";
     private String description =" MAKO";
     private String thumbnail ="hehe.png" ;

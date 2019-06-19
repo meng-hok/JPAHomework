@@ -1,6 +1,7 @@
 package com.example.getStartedExercise.getstartedexercise.controller.ArticleController;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import com.example.getStartedExercise.getstartedexercise.repository.ArticleRepos
 import com.example.getStartedExercise.getstartedexercise.repository.ArticleRepository.CategoryRepository;
 import com.example.getStartedExercise.getstartedexercise.repository.model.Article;
 import com.example.getStartedExercise.getstartedexercise.repository.model.Category;
+import com.example.getStartedExercise.getstartedexercise.repository.provider.MyProvider;
 import com.example.getStartedExercise.getstartedexercise.service.ArticleServiceImp;
 import com.example.getStartedExercise.getstartedexercise.service.ArticleService.ArticleService;
 
@@ -70,10 +72,11 @@ public class ArticleController {
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute Article article ,BindingResult bindingResult,@RequestParam("files") MultipartFile files,ModelMap modelMap){
         if(bindingResult.hasErrors()){
-          modelMap.addAttribute("ARTICLE", new Article());
+          modelMap.addAttribute("ARTICLE", article);
           modelMap.addAttribute("CATEGORIES",categoryRepository.findAll());
           modelMap.addAttribute("category",new Category());
-           return "form";
+       
+          return "form";
        }
         if(files.isEmpty()){
 
@@ -104,7 +107,15 @@ public class ArticleController {
     }
 
     @PostMapping("/edit/author")
-    public String edit(@ModelAttribute Article article,@RequestParam("files") MultipartFile file ){
+    public String edit(@Valid @ModelAttribute Article article,BindingResult bindingResult,@RequestParam("files") MultipartFile file ,ModelMap modelMap ){
+        if(bindingResult.hasErrors()){
+            modelMap.addAttribute("ARTICLE",article);
+            modelMap.addAttribute("INDEX",article.getId());
+            modelMap.addAttribute("CATEGORIES",categoryRepository.findAll());
+            modelMap.addAttribute("category",new Category());
+          
+             return "form";
+         }
         if(file.isEmpty()){
          
         }else{
@@ -190,5 +201,12 @@ public class ArticleController {
         articleServiceImp.add(article);
           return "redirect:/home";
       }
+
+      @GetMapping("/translate")
+      String translate() {
+          return "backer/backer";
+      }
+
+      
  
 }

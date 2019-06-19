@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.example.getStartedExercise.getstartedexercise.repository.ArticleRepositoryImp;
 import com.example.getStartedExercise.getstartedexercise.repository.model.Article;
+import com.example.getStartedExercise.getstartedexercise.repository.provider.MyProvider;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.annotation.MapperScan;
@@ -24,8 +26,9 @@ public interface ArticleRepoDB extends ArticleRepositoryImp {
      boolean add(Article article);
       
     //@Select("SELECT * FROM tb_articles where status = 1 ORDER BY id asc")
-     @Select("SELECT  tba.* , tbc.name as name FROM TB_ARTICLES AS tba LEFT JOIN TB_CATEGORIES AS tbc ON tba.category_id = tbc.id where tba.status = 1")
-     @Results({
+    //  @Select("SELECT  tba.* , tbc.name as name FROM TB_ARTICLES AS tba LEFT JOIN TB_CATEGORIES AS tbc ON tba.category_id = tbc.id where tba.status = 1")
+    @SelectProvider(method="findAll" ,type = MyProvider.class) 
+    @Results({
        @Result( column = "category_id" ,property = "category.id",jdbcType=JdbcType.INTEGER),
        @Result( column = "name" ,property = "category.name",jdbcType=JdbcType.VARCHAR)
      }) 
