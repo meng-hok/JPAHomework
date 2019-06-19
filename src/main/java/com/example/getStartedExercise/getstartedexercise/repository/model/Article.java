@@ -13,7 +13,7 @@ public class Article {
     @NotEmpty
     private String title;
     
-    @Size(min = 7)
+    @NotEmpty
     private String author = "HAKA";
     private String description =" MAKO";
     private String thumbnail ="hehe.png" ;

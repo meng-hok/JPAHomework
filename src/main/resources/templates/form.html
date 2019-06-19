@@ -7,6 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#img-preview').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $("#file-selector").change(function () {
+                readURL(this);
+            });
+        });
+    </script>
 </head>
 <body>
        
@@ -18,7 +35,7 @@
                 <div class="form-group">
                     <input type="text" th:field="*{id}" style="display:none;">
                     <input type="text" th:field="*{thumbnail}" style="display:none;">
-                    <label for="">TITLE</label><label th:if="${#fields.hasErrors('title')}"> hahahha</label>
+                    <label for="">TITLE  </label><label th:if="${#fields.hasErrors('title')}"><sup class="text-danger">* CAN NOT BE EMPTY</sup></label>
                     <input type="text" class="form-control" th:field="*{title}">
                 </div>
                 <div class="form-group" th:if="${CATEGORIES.size()} > 0">
@@ -30,16 +47,22 @@
                         </select>
                 </div>
                 <div class="form-group">
-                    <label for="">AUTHOR</label><span th:if="${#fields.hasErrors('author')}"> hahahha</span>
+                    <label for="">AUTHOR</label><label th:if="${#fields.hasErrors('author')}"><sup class="text-danger">* CAN NOT BE EMPTY</sup></label>
                     <input type="text"  class="form-control" th:field="*{author}">
                 </div>
                 <div class="form-group">
                     <label for="">DESCRITION</label>
                     <input type="text"  class="form-control"  th:field="*{description}">
                 </div>
-                <input type="file" name="files" multiple="multiple">
+                <input type="file" name="files"  id="file-selector" multiple="multiple">
                 <!-- <input type="submit" value="Upload" /> -->
-        
+                
+                <div style="text-align: center; margin: 15px 0;">
+                    <img id="img-preview" width="250px" src="" alt="">
+                </div>
+                
+
+
                 <input class="btn btn-primary" type="submit" th:value="#{article.submit}">
             </form>
         </div>

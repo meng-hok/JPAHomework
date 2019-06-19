@@ -70,7 +70,7 @@ public class ArticleController {
     }
     //,@ModelAttribute("category") Category category
     @PostMapping("/add")
-    public String add(@Valid @ModelAttribute Article article ,BindingResult bindingResult,@RequestParam("files") MultipartFile files,ModelMap modelMap){
+    public String add(@Valid @ModelAttribute("ARTICLE") Article article ,BindingResult bindingResult,@RequestParam("files") MultipartFile files,ModelMap modelMap){
         if(bindingResult.hasErrors()){
           modelMap.addAttribute("ARTICLE", article);
           modelMap.addAttribute("CATEGORIES",categoryRepository.findAll());
@@ -107,7 +107,7 @@ public class ArticleController {
     }
 
     @PostMapping("/edit/author")
-    public String edit(@Valid @ModelAttribute Article article,BindingResult bindingResult,@RequestParam("files") MultipartFile file ,ModelMap modelMap ){
+    public String edit(@Valid @ModelAttribute("ARTICLE") Article article,BindingResult bindingResult,@RequestParam("files") MultipartFile file ,ModelMap modelMap ){
         if(bindingResult.hasErrors()){
             modelMap.addAttribute("ARTICLE",article);
             modelMap.addAttribute("INDEX",article.getId());
