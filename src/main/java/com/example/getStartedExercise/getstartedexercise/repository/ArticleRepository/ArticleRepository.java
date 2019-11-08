@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.getStartedExercise.getstartedexercise.repository.ArticleRepositoryImp;
-import com.example.getStartedExercise.getstartedexercise.repository.model.Article;
+import com.example.getStartedExercise.getstartedexercise.repository.model.Book;
 
 import org.springframework.stereotype.Repository;
 
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Repository;
 //@Repository
 public class ArticleRepository implements ArticleRepositoryImp {
 
-    List<Article> list = new ArrayList<>(); 
+    List<Book> list = new ArrayList<>(); 
     static int id =1;
     @Override
-    public boolean add(Article article) {
+    public boolean add(Book article) {
         try{
             article.setId(id);
             list.add(article);
@@ -29,12 +29,12 @@ public class ArticleRepository implements ArticleRepositoryImp {
     }   
 
     @Override
-    public List<Article> findAll() {
+    public List<Book> findAll() {
         return list;
     }
 
     @Override
-    public Article find(int id) {
+    public Book find(int id) {
        
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i).getId() == id){
@@ -45,7 +45,7 @@ public class ArticleRepository implements ArticleRepositoryImp {
     }
 
     @Override
-    public boolean update(Article article) {
+    public boolean update(Book article) {
         System.out.println(article.getId());
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i).getId() == article.getId()){
@@ -58,7 +58,7 @@ public class ArticleRepository implements ArticleRepositoryImp {
         return false;
     }
     @Override
-    public boolean update(int index,Article article) {
+    public boolean update(int index,Book article) {
         list.set(index, article);
         return false;
     }

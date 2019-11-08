@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.example.getStartedExercise.getstartedexercise.repository.ArticleRepositoryImp;
-import com.example.getStartedExercise.getstartedexercise.repository.model.Article;
+import com.example.getStartedExercise.getstartedexercise.repository.model.Book;
 import com.example.getStartedExercise.getstartedexercise.service.ArticleServiceImp;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class ArticleService implements ArticleServiceImp {
     }
 
     @Override
-    public boolean add( Article article) {
+    public boolean add( Book article) {
         if(articleRepositoryImp.add(article)){
             System.out.println("addd aii");
             return true;
@@ -37,24 +37,24 @@ public class ArticleService implements ArticleServiceImp {
     }
 
     @Override
-    public List<Article> findAll() {
+    public List<Book> findAll() {
         return articleRepositoryImp.findAll();
     }
 
     @Override
-    public Article find(int id) {
+    public Book find(int id) {
         return articleRepositoryImp.find(id);
     }
 
     @Override
-    public boolean update(Article article) {
+    public boolean update(Book article) {
         // System.out.println("service here"+article.getId());
         articleRepositoryImp.update(article);
         return false;
     }
 
     @Override
-    public boolean update(int index,Article article) {
+    public boolean update(int index,Book article) {
         articleRepositoryImp.update(index, article);
         return false;
     }

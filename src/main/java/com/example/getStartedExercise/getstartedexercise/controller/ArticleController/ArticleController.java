@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import com.example.getStartedExercise.getstartedexercise.configuration.FileConguration;
 import com.example.getStartedExercise.getstartedexercise.repository.ArticleRepository.ArticleRepoDB;
 import com.example.getStartedExercise.getstartedexercise.repository.ArticleRepository.CategoryRepository;
-import com.example.getStartedExercise.getstartedexercise.repository.model.Article;
+import com.example.getStartedExercise.getstartedexercise.repository.model.Book;
 import com.example.getStartedExercise.getstartedexercise.repository.model.Category;
 import com.example.getStartedExercise.getstartedexercise.repository.provider.MyProvider;
 import com.example.getStartedExercise.getstartedexercise.service.ArticleServiceImp;
@@ -39,7 +39,7 @@ public class ArticleController {
 
     ArticleServiceImp articleServiceImp;
     static String lang  = "en";
-    private List<Article> list;
+    private List<Book> list;
     Boolean search_via_all = true;
     @Autowired
     private CategoryRepository categoryRepository;
@@ -63,14 +63,14 @@ public class ArticleController {
 
     @RequestMapping("/add")
     public String add(ModelMap modelMap){
-        modelMap.addAttribute("ARTICLE", new Article());
+        modelMap.addAttribute("ARTICLE", new Book());
         modelMap.addAttribute("CATEGORIES",categoryRepository.findAll());
         modelMap.addAttribute("category",new Category());
         return "form";
     }
     //,@ModelAttribute("category") Category category
     @PostMapping("/add")
-    public String add(@Valid @ModelAttribute("ARTICLE") Article article ,BindingResult bindingResult,@RequestParam("files") MultipartFile files,ModelMap modelMap){
+    public String add(@Valid @ModelAttribute("ARTICLE") Book article ,BindingResult bindingResult,@RequestParam("files") MultipartFile files,ModelMap modelMap){
         if(bindingResult.hasErrors()){
           modelMap.addAttribute("ARTICLE", article);
           modelMap.addAttribute("CATEGORIES",categoryRepository.findAll());
@@ -107,7 +107,7 @@ public class ArticleController {
     }
 
     @PostMapping("/edit/author")
-    public String edit(@Valid @ModelAttribute("ARTICLE") Article article,BindingResult bindingResult,@RequestParam("files") MultipartFile file ,ModelMap modelMap ){
+    public String edit(@Valid @ModelAttribute("ARTICLE") Book article,BindingResult bindingResult,@RequestParam("files") MultipartFile file ,ModelMap modelMap ){
         if(bindingResult.hasErrors()){
             modelMap.addAttribute("ARTICLE",article);
             modelMap.addAttribute("INDEX",article.getId());
@@ -139,7 +139,7 @@ public class ArticleController {
     String faker()
     {
         //fakeData();
-        articleRepoDB.add(new Article());
+        articleRepoDB.add(new Book());
         return "redirect:/home";
     }
 
@@ -161,7 +161,7 @@ public class ArticleController {
                 list =  articleServiceImp.findAll();
             }
                 
-            List<Article> newList = new ArrayList<>();
+            List<Book> newList = new ArrayList<>();
             for (int i = limit * (page-1) ; i < limit * page; i++) {
                 try {
                     newList.add(list.get(i));
@@ -178,9 +178,9 @@ public class ArticleController {
          modelMap.addAttribute("CURRENTPAGE",page);
          return "home";
      }
-     List<Article> fakeData( ){
+     List<Book> fakeData( ){
         for (int i = 0; i < 20; i++) {
-            Article article = new Article();
+            Book article = new Book();
             article.setId(50);
             article.setTitle("hahahaha");
             add(article);
@@ -189,7 +189,7 @@ public class ArticleController {
     }
 
 
-    List<Article> findByName(String title,int id) {
+    List<Book> findByName(String title,int id) {
         String searchTitle = '%'+title+'%';
         if(id == 0){
             return articleRepoDB.findByTitle(searchTitle);
@@ -197,7 +197,7 @@ public class ArticleController {
         return articleRepoDB.findByTitleAndType(searchTitle,id);
      }  
 
-     public String add(@ModelAttribute Article article ){
+     public String add(@ModelAttribute Book article ){
         articleServiceImp.add(article);
           return "redirect:/home";
       }

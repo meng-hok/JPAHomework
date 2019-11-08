@@ -2,8 +2,14 @@ package com.example.getStartedExercise.getstartedexercise.repository.ArticleRepo
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
+
 import com.example.getStartedExercise.getstartedexercise.repository.ArticleRepositoryImp;
-import com.example.getStartedExercise.getstartedexercise.repository.model.Article;
+import com.example.getStartedExercise.getstartedexercise.repository.model.Book;
 import com.example.getStartedExercise.getstartedexercise.repository.provider.MyProvider;
 
 import org.apache.ibatis.annotations.Insert;
@@ -20,49 +26,101 @@ import org.springframework.stereotype.Repository;
  * ArticleRepoDB
  */
 @Repository
-public interface ArticleRepoDB extends ArticleRepositoryImp {
+@Transactional
+public class ArticleRepoDB implements ArticleRepositoryImp {
 
-     @Insert("INSERT INTO tb_articles (title, author, category_id ,description , thumbnail,status) VALUES (#{title},#{author},#{category.id} ,#{description} ,#{thumbnail} ,1 ) ")
-     boolean add(Article article);
-      
-    //@Select("SELECT * FROM tb_articles where status = 1 ORDER BY id asc")
-    //  @Select("SELECT  tba.* , tbc.name as name FROM TB_ARTICLES AS tba LEFT JOIN TB_CATEGORIES AS tbc ON tba.category_id = tbc.id where tba.status = 1")
-    @SelectProvider(method="findAll" ,type = MyProvider.class) 
-    @Results({
-       @Result( column = "category_id" ,property = "category.id",jdbcType=JdbcType.INTEGER),
-       @Result( column = "name" ,property = "category.name",jdbcType=JdbcType.VARCHAR)
-     }) 
-     List<Article> findAll(); 
+  @PersistenceContext
+  EntityManager entityManager;
 
-     //@Select("SELECT * FROM tb_articles where id = #{id} AND status = 1")
-     @Select("SELECT  tba.* , tbc.name as name FROM TB_ARTICLES AS tba LEFT JOIN TB_CATEGORIES AS tbc ON tba.category_id = tbc.id  WHERE tba.id = #{id} AND tba.status = 1")
-     @Results({
-       @Result( column = "category_id" ,property = "category.id",jdbcType=JdbcType.INTEGER),
-       @Result( column = "name" ,property = "category.name",jdbcType=JdbcType.VARCHAR)
-     }) 
-     Article find(int id);
+  public boolean add(Book article) {
+    try {
+      entityManager.persist(article);
+    } catch (Exception e) {
+      return false;
+    }
+    return true;
+  }
 
-     @Update("UPDATE tb_articles SET title= #{title},author=#{author},category_id=#{category.id},description =#{description},thumbnail = #{thumbnail}  WHERE id=#{id}")
-     boolean update(Article article);
+  public List<Book> findAll() {
+    TypedQuery<Book> query = entityManager.createQuery("SELECT a FROM Book a WHERE a.status = 1", Book.class);
+    List<Book> articles = query.getResultList();
+    return articles;
+  }
 
-     @Update("Update tb_articles SET status=0 WHERE id=#{id} ")
-      boolean delete(int id) ;
+  public Book find(int id) {
+    Book article = entityManager.find(Book.class, id);
+    return article;
+  }
 
-      @Update("Update tb_articles SET status=0 WHERE category_id=#{category_id} ")
-      boolean deleteByCategoryId(int category_id);
+  public boolean update(Book article) {
+    Book _article = entityManager.find(Book.class, article.getId());
+    _article = article;
+    _article.setStatus(1);
+    try {
+      entityManager.merge(_article);
+    } catch (Exception e) {
+      return false;
+    }
     
-    
-    @Select("SELECT  tba.* , tbc.name as name FROM TB_ARTICLES AS tba LEFT JOIN TB_CATEGORIES AS tbc ON tba.category_id = tbc.id where tba.title like #{title} AND tba.status = 1")
-     @Results({
-       @Result( column = "category_id" ,property = "category.id",jdbcType=JdbcType.INTEGER),
-       @Result( column = "name" ,property = "category.name",jdbcType=JdbcType.VARCHAR)
-     }) 
-      List<Article> findByTitle(String title);
+    return true;
 
-      @Select("SELECT  tba.* , tbc.name as name FROM TB_ARTICLES AS tba LEFT JOIN TB_CATEGORIES AS tbc ON tba.category_id = tbc.id where tba.title like #{title} AND tba.category_id = #{category_id} AND tba.status = 1")
-      @Results({
-        @Result( column = "category_id" ,property = "category.id",jdbcType=JdbcType.INTEGER),
-        @Result( column = "name" ,property = "category.name",jdbcType=JdbcType.VARCHAR)
-      }) 
-       List<Article> findByTitleAndType(String title,int category_id);
+  }
+
+  // @Update("Update tb_articles SET status=0 WHERE id=#{id} ")
+  public boolean delete(int id) {
+    Book article = entityManager.find(Book.class, id);
+    article.setStatus(0);
+    try {
+      entityManager.merge(article);
+    } catch (Exception e) {
+      return false;
+    }
+   
+    return true;
+  };
+
+  public boolean deleteByCategoryId(int category_id) {
+
+    TypedQuery<Book> query = entityManager.createQuery("SELECT a FROM Book a WHERE a.category.id = ?1",
+        Book.class);
+    query.setParameter(1, category_id);
+    List<Book> articles = query.getResultList();
+    //entityManager.getTransaction().begin();
+    articles.forEach((article) -> {
+      article.setStatus(0);
+      try {
+        entityManager.merge(article);
+      } catch (Exception e) {
+       // entityManager.getTransaction().rollback();
+        return;
+      }
+    
+    });
+    //entityManager.getTransaction().commit();
+    return true;
+  }
+
+  @Override
+  public boolean update(int index, Book article) {
+    return false;
+  }
+
+  public List<Book> findByTitle(String title) {
+    TypedQuery<Book> query = entityManager
+        .createQuery("SELECT a FROM Book a WHERE a.title LIKE ?1 AND a.status =1", Book.class);
+    query.setParameter(1, "%" + title + "%");
+    List<Book> articles = query.getResultList();
+
+    return articles;
+  }
+
+  public List<Book> findByTitleAndType(String title, int category_id) {
+    TypedQuery<Book> query = entityManager.createQuery(
+        "SELECT a FROM Book a WHERE a.title LIKE ?1 AND a.status = 1 AND  a.category.id = ?2", Book.class);
+    query.setParameter(1, "%" + title + "%");
+    query.setParameter(2, category_id);
+    List<Book> articles = query.getResultList();
+
+    return articles;
+  }
 }

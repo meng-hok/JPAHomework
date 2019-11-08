@@ -8,9 +8,9 @@
     <title>Document</title>
 </head>
 
-<body>
+<body style="background-color : #e9ebee;">
     <div layout:fragment="content">
-        <div class="container py-5 w-20" >
+        <div class="container bg-white py-5 mt-3 w-20" >
             <form action="../search" method="POST" class="form-inline " style="justify-content: flex-end;">
                 <div class="form-group">
                     <!-- <label for=""></label> -->
@@ -20,11 +20,11 @@
                         <option th:each="CATEGORY : ${CATEGORIES}" th:value="${CATEGORY.id}" th:text="${CATEGORY.name}"></option>
                     </select>
                 </div>
-                <input type="submit" class="btn btn-outline-primary" value="SUBMIT">
+                <input type="submit" class="btn btn-outline-dark" value="SUBMIT">
             </form>
         </div>
         <!-- <p th:text="${ARTICLES.size()}"></p> -->
-        <div class="container">
+        <div class="container bg-white">
             <table class="table">
                 <thead>
                     <tr>

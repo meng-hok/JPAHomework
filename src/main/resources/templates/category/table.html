@@ -9,13 +9,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body>
+<body style="background-color : #e9ebee;">
     <div layout:fragment="content">
-        <center class="my-2">
+        <center class="my-2 ">
             <a th:href="@{/category/add}" class="btn btn-outline-primary" th:text="#{article.add_new}">New Category</a>
         </center>
         <div class="container" th:if="${CATEGORIES.size()} > 0" >
-            <table class="table" >
+            <table class="table bg-white" >
                 <thead>
                     <tr>
                         <th>#</th>

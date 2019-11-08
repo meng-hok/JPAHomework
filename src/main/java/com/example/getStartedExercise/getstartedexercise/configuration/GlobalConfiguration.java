@@ -16,16 +16,16 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
  @Configuration
 public class GlobalConfiguration {
 
-    @Bean
-    @Profile("psql")
-    public DataSource dataSource () {
-        DriverManagerDataSource db = new DriverManagerDataSource ();
-        db.setDriverClassName("org.postgresql.Driver");
-        db.setUrl("jdbc:postgresql://localhost:5432/Article");
-        db.setUsername("sokhok");
-        db.setPassword("123!@#");
-        return db;
-    }
+    // @Bean
+    // @Profile("psql")
+    // public DataSource dataSource () {
+    //     DriverManagerDataSource db = new DriverManagerDataSource ();
+    //     db.setDriverClassName("org.postgresql.Driver");
+    //     db.setUrl("jdbc:postgresql://localhost:5432/Article");
+    //     db.setUsername("sokhok");
+    //     db.setPassword("123!@#");
+    //     return db;
+    // }
 
     @Bean
     @Profile("memory")
@@ -33,7 +33,8 @@ public class GlobalConfiguration {
         String pather = "classpath:/static/table/";
         EmbeddedDatabaseBuilder embeddedDatabaseBuilder = new EmbeddedDatabaseBuilder();
         embeddedDatabaseBuilder.setType(EmbeddedDatabaseType.H2);
-        embeddedDatabaseBuilder.addScripts(pather+"table.sql",pather+"data.sql");
+       // embeddedDatabaseBuilder.addScript(pather+"data.sql");
+       // embeddedDatabaseBuilder.addScripts(pather+"table.sql",pather+"data.sql");
         return embeddedDatabaseBuilder.build();
     }
 }
