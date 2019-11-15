@@ -5,15 +5,19 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * GlobalConfiguration
  */
 
  @Configuration
+ @EnableTransactionManagement
 public class GlobalConfiguration {
 
     // @Bean
@@ -36,5 +40,12 @@ public class GlobalConfiguration {
        // embeddedDatabaseBuilder.addScript(pather+"data.sql");
        // embeddedDatabaseBuilder.addScripts(pather+"table.sql",pather+"data.sql");
         return embeddedDatabaseBuilder.build();
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
+        transactionManager.setDataSource(h2dataSource());
+        return transactionManager;
     }
 }

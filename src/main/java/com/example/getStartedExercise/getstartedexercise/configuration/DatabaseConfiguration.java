@@ -19,10 +19,10 @@ public class DatabaseConfiguration {
     @Autowired
     private DataSource dataSource ;
 
-    @Bean
-    public DataSourceTransactionManager dataSourceTransactionManager(){
-        return new DataSourceTransactionManager(dataSource);
-    }
+    // @Bean
+    // public DataSourceTransactionManager dataSourceTransactionManager(){
+    //     return new DataSourceTransactionManager(dataSource);
+    // }
 
     @Bean
     public SqlSessionFactoryBean sqlSessionFactoryBean() throws Exception{

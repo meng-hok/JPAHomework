@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import com.example.getStartedExercise.getstartedexercise.configuration.FileConguration;
@@ -35,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
+@Transactional
 public class ArticleController {
 
     ArticleServiceImp articleServiceImp;

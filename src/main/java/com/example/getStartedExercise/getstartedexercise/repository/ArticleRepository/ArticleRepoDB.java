@@ -9,6 +9,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import com.example.getStartedExercise.getstartedexercise.repository.ArticleRepositoryImp;
+import com.example.getStartedExercise.getstartedexercise.repository.datarepository.BookDataRepository;
 import com.example.getStartedExercise.getstartedexercise.repository.model.Book;
 import com.example.getStartedExercise.getstartedexercise.repository.provider.MyProvider;
 
@@ -20,6 +21,7 @@ import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -31,7 +33,9 @@ public class ArticleRepoDB implements ArticleRepositoryImp {
 
   @PersistenceContext
   EntityManager entityManager;
-
+  @Autowired
+  BookDataRepository bookrepo;
+ 
   public boolean add(Book article) {
     try {
       entityManager.persist(article);
@@ -106,21 +110,21 @@ public class ArticleRepoDB implements ArticleRepositoryImp {
   }
 
   public List<Book> findByTitle(String title) {
-    TypedQuery<Book> query = entityManager
+   /* TypedQuery<Book> query = entityManager
         .createQuery("SELECT a FROM Book a WHERE a.title LIKE ?1 AND a.status =1", Book.class);
-    query.setParameter(1, "%" + title + "%");
-    List<Book> articles = query.getResultList();
+    query.setParameter(1, "%" + title + "%");*/
+    List<Book> articles = bookrepo.findByTitleLikeAndStatus(title,1);
 
     return articles;
   }
 
   public List<Book> findByTitleAndType(String title, int category_id) {
-    TypedQuery<Book> query = entityManager.createQuery(
+   /* TypedQuery<Book> query = entityManager.createQuery(
         "SELECT a FROM Book a WHERE a.title LIKE ?1 AND a.status = 1 AND  a.category.id = ?2", Book.class);
     query.setParameter(1, "%" + title + "%");
     query.setParameter(2, category_id);
-    List<Book> articles = query.getResultList();
-
+    List<Book> articles = query.getResultList();*/
+    List<Book> articles = bookrepo.findByTitleLikeAndCategoryIdAndStatus(title,category_id,1);
     return articles;
   }
 }
