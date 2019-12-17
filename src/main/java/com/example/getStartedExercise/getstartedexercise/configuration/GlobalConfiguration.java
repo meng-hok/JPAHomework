@@ -25,7 +25,7 @@ public class GlobalConfiguration {
     // public DataSource dataSource () {
     //     DriverManagerDataSource db = new DriverManagerDataSource ();
     //     db.setDriverClassName("org.postgresql.Driver");
-    //     db.setUrl("jdbc:postgresql://localhost:5432/Article");
+    //     db.setUrl("jdbc:postgresql://localhost:5432/ArticleSpringAdvanceLesson");
     //     db.setUsername("sokhok");
     //     db.setPassword("123!@#");
     //     return db;
@@ -46,6 +46,7 @@ public class GlobalConfiguration {
     public PlatformTransactionManager transactionManager() {
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
         transactionManager.setDataSource(h2dataSource());
+
         return transactionManager;
     }
 }

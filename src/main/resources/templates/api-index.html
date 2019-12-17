@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>ការគ្រប់គ្រងលើអត្ថបទ</title>
+</head>
+
+<body style="background-color : #e9ebee;">
+    <div layout:fragment="content">
+        <div class="container bg-white py-5 mt-3 w-20" >
+            <form class="form-inline " style="justify-content: flex-end;">
+                <div class="form-group">
+                    <!-- <label for=""></label> -->
+                    <input type="text" id="search_title_input" name="search_title" class="form-control" placeholder="title">
+                    <select name="search_type" id="search_type_option" class="form-control">
+                        <option selected="selected" value="0">All</option>
+                        <option th:each="CATEGORY : ${CATEGORIES}" th:value="${CATEGORY.id}" th:text="${CATEGORY.name}"></option>
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-outline-dark" value="SUBMIT">
+            </form>
+        </div>
+        <!-- <p th:text="${ARTICLES.size()}"></p> -->
+        <div class="container bg-white">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th th:text="#{article.identifier}">LMAO </th>
+                        <th th:text="#{article.title}">TITLE</th>
+                        <th th:text="#{article.author}">AUTHOR</th>
+                        <th >CATEGORY</th>
+                        <th th:text="#{article.description}">DESCRITION</th>
+                        <th th:text="#{article.thumbnail}">Thumnail</th>
+                        <th th:text="#{article.action}">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="artcle_tbody">
+                    <tr >
+                      
+                    </tr>
+                </tbody>
+               
+
+
+
+            </table>
+        </div>
+        <style>
+            .activator {
+                background-color: darkseagreen;
+            }
+        </style>
+        <div>
+           
+            <div style="text-align: center;">
+
+                <ul class="pagination" id="pagination_ul" style="margin:0px auto; width: 20%;">
+                   
+                    
+            
+                </ul>
+            
+                    
+            </div>
+                
+        </div>
+        <script>
+            var json_books =null;
+            
+            var _current_uri = "";
+            const linkAndAccess = (uri="",t_title="") => {
+               if(uri != ""){
+                   console.log(uri)
+                   
+                    fetch(uri)
+                        .then(res => res.json())
+                        .then(json => {
+                            
+                            json_books = json;
+                            if(json_books._embedded != null  ){
+                                
+                                makeListToTable(json_books._embedded.books_list)
+                                $("#pagination_ul").empty();
+                                if(json_books._embedded.books_list.length > 0){
+                                     generatePagination(json_books.page,json_books._links,uri);
+                                 }
+
+                            }
+                        } )
+                        .catch(err=> console.log(err))
+               }else{
+                  
+               }
+            }
+            
+            linkAndAccess("http://localhost:8585/api/books/search/status?status=1")
+           
+            const generateLink = (link,name) => {
+                return ` <li class="page-item">
+                            <a class="page-link" onclick="{linkAndAccess('${link}')}">${name}</a>
+                        </li>`
+            }
+
+            const customizeUriAndPage = (url,index) => {
+                let uri = new URL(url);
+                let param = new URLSearchParams(uri.search);
+                param.set('page',index);
+                uri.search = param.toString();
+                return uri.toString();
+
+            }
+
+
+
+            const generatePagination = (page,link,current_uri="") => {
+                 
+                let page_number = "";
+                    
+                $("#pagination_ul").empty();
+                 for (let index = 0; index < page.totalPages; index++) {
+                    let uri = customizeUriAndPage(current_uri,index);
+                     page_number += 
+                        ` <li class="page-item"><a class="page-link" onclick="{linkAndAccess('${uri}')}">${index}</a></li>`
+                 }
+
+                let li_combination = (page.totalPages == 1 ? "" : (link.first == null? "": generateLink(link.first.href,"First") )+page_number+(link.last ==null ? "":generateLink(link.last.href,"Last") ));
+
+                $("#pagination_ul").append(li_combination);
+            }
+
+           
+            const makeListToTable = (lists =null) => {
+                    lists == null ? lists = [] : "";
+                    $("#artcle_tbody").empty();
+                    let trows ="";
+                    lists.forEach((data) => {
+                        trows += makeObjectToRow(data);
+                    })
+                    $("#artcle_tbody").append(trows);
+                } 
+
+            const makeObjectToRow = (obj) => {
+                if(obj == null){
+                    return ""; 
+                }else{
+
+                   return `
+                        <tr>
+                            <td>#</td>
+                            <td>${obj.id}</td>
+                            <td>${obj.title}</td>
+                            <td>${obj.author}</td>
+                            <td>${(obj.category == null )? 'Unknown' : obj.category.name }</td>
+                            <td>${obj.description}</td>
+                            <td>
+                                <img src="/resources/img/${obj.thumbnail}" alt="" width="150px" height="80px">
+                            </td>
+                            
+                            <td>
+                                <a class="btn btn-outline-primary" href="/article/${obj.id}?id=${obj.id}" th:text="#{article.view}" >View</a>
+                                <a class="btn btn-outline-primary" href="/edit/author?id=${obj.id}" th:text="#{article.update}">EDIT</a>
+                                <a class="btn btn-outline-primary" href="/remove?id=${obj.id}" th:text="#{article.delete}">DELETE</a>
+                            </td>
+                        </tr>    
+                   `
+                }
+
+
+            }       
+        
+            $(function(){
+                $("form").submit(function(e){
+                    e.preventDefault();
+                    let text = $("#search_title_input").val();
+                    let type = $("#search_type_option").val();
+                    console.log(text + type)
+                    
+                    if(parseInt(type) > 0 ){
+                       
+                        linkAndAccess(`http://localhost:8585/api/books/search/findByTitleContainingAndCategoryIdAndStatus?title=${text}&category_id=${type}&i=1`)
+              
+                    }else{
+                        
+                        linkAndAccess(`http://localhost:8585/api/books/search/findByTitleContainingAndStatus?string=${text}&i=1`)
+                    }
+
+                });
+            })
+        </script>
+    </div>
+   
+</body>
+</html>

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.getStartedExercise.getstartedexercise.repository.model.Book;
+import com.example.getStartedExercise.getstartedexercise.repository.model.projection.BookProjection;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,18 +18,18 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * BookDataRepository
  */
-@Repository
-@RepositoryRestResource(exported = false)
-public interface BookDataRepository extends JpaRepository<Book, Integer> {
-	
-	//@RestResource(path = "status", rel = "findByStatus" )
-	List<Book> findByStatus(@Param("status")Integer status);
 
-	List<Book> findByTitleLikeAndStatus(String string, int i);
+@RepositoryRestResource(path = "/books" ,collectionResourceRel = "books_list",exported = true,excerptProjection = BookProjection.class)
+public interface BookDataRepositoryCopy extends JpaRepository<Book, Integer> {
+	
+	@RestResource(path = "status", rel = "findByStatus" )
+	Page<Book> findByStatus(@Param("status")Integer status,@Param("pageable")Pageable pageable);
+
+	Page<Book> findByTitleContainingAndStatus(String string, int i,Pageable pageable);
 
 	List<Book> findByTitleLikeAndCategoryAndStatus(String title, int category_id, int i);
 
-	List<Book> findByTitleLikeAndCategoryIdAndStatus(String title, int category_id, int i);
+	Page<Book> findByTitleContainingAndCategoryIdAndStatus(String title, int category_id, int i,Pageable pageable);
 
 	Optional<Book> findById(Integer id);
     
