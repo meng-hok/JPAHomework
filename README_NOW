@@ -1,2 +1,6 @@
 1.Exist data was kept in resources/static/table/..
-2.
+2.LINKS : 
+    /api/index : homepage with spring data rest
+    /api       : spring data rest resource default page
+    /swagger-ui.html : 
+    
